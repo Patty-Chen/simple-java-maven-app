@@ -4,18 +4,18 @@ pipeline {
     stages {
         stage('Build') { 
             steps { 
-                sh 'make' 
+                sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Test'){
             steps {
-                sh 'make check'
+                sh 'mvn test'
                 junit 'reports/**/*.xml' 
             }
         }
-        stage('Deploy') {
+        stage('Deliver') {
             steps {
-                sh 'make publish'
+                sh './jenkins/scripts/deliver.sh'
             }
         }
     }
